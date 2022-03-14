@@ -19,7 +19,17 @@ RUN apt update && \
     rm /opt/arkime_$VER-1_amd64.deb
 
 
+
 COPY --from=0 /go/src/app/arkime-supervisor /opt/arkime/
+
+COPY libpcap_1.10.1-1_amd64.deb /opt/libpcap_1.10.1-1_amd64.deb
+COPY tcpdump_4.99.1-1_amd64.deb /opt/tcpdump_4.99.1-1_amd64.deb
+
+RUN dpkg -i /opt/libpcap_1.10.1-1_amd64.deb && \
+    rm /opt/libpcap_1.10.1-1_amd64.deb &&\
+    dpkg -i /opt/tcpdump_4.99.1-1_amd64.deb && \
+    rm /opt/tcpdump_4.99.1-1_amd64.deb
+
 
 EXPOSE 8005
 
