@@ -129,6 +129,7 @@ var GeneralOptions struct {
 	GeoLite2CountryURL     string         `long:"geoLite2CountryURL"     no-ini:"true" ini-default:"false"    env:"ARKIME_GEOLITECOUNTRYURL"      default:"https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-Country.mmdb"  description:"Download GeoLite2 Country mmdb on startup and push to geoLite2Country location defined in ArkimeOptions. empty means disabled"`
 	GeoLite2ASNURL         string         `long:"geoLite2ASNURL"         no-ini:"true" ini-default:"false"    env:"ARKIME_GEOLITEASNURL"          default:"https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-ASN.mmdb"      description:"Download GeoLite2 ASN mmdb on startup and push to geoLite2ASN location defined in ArkimeOptions. empty means disabled"`
 	GeoLiteRefreshInterval time.Duration  `long:"geoLiteRefreshInterval" no-ini:"true" ini-default:"false"    env:"ARKIME_GEOLITEREFRESHINTERVAL" default:"168h"                                                                       description:"Auto re-download interval for GeoLite2CountryURL and GeoLite2ASNURL"`
+	Rpcap                  bool           `long:"help"  short:"h"        no-ini:"true" ini-default:"false"    env:"ARKIME_RPCAP"                  default:"false"                                                                      description:"Enable Capture on FIFO-Pipe where tcpdump sends packages from rpcap interface"`
 	// TODO: possibly handle daily script to remove old indices from Elasticsearch
 }
 

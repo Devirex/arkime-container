@@ -162,7 +162,17 @@ func runCapture() error {
 		LogFormat:       "[CAPTURE] : %time% - %msg%\n",
 	}
 	log.Infof("Starting the Capture process")
-	captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-c", fmt.Sprintf("%v/etc/config.ini", PATH_PREFIX))
+	if GeneralOptions.Rpcap == "false"{
+		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-c", fmt.Sprintf("%v/etc/config.ini", PATH_PREFIX))
+	}else{
+		file, err := os.OpenFile("/tmp/rpcapd")
+		if os.IsNotExist(err) {
+			// handle the case where the file doesn't exist
+			exec.Command("mkfifo /tmp/rpcapd").Run() 
+		}
+		exec.Command("tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.bpf, "-S -U -w - > /tmp/rpcapd").Run() 
+		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-r /tmp/rpcapd")
+	}
 	captureCmd.Dir = fmt.Sprintf("%v", PATH_PREFIX)
 	captureCmd.Stdout = captureLog.Writer()
 	captureCmd.Stderr = captureLog.Writer()
@@ -230,8 +240,10 @@ func main() {
 	if GeneralOptions.GeoLite2ASNURL != "" {
 		DownloadFile(ArkimeOptions.GeoLite2ASN, GeneralOptions.GeoLite2ASNURL)
 	}
-	// run arkime_config_interfaces.sh
-	configureInterfaces()
+	if GeneralOptions.Rpcap == "false" {
+		// run arkime_config_interfaces.sh
+		configureInterfaces()	
+	}
 	// run capture process
 	err := runCapture()
 	errorHandler(err)
