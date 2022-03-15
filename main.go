@@ -171,7 +171,9 @@ func runCapture() error {
 			log.Infof("Creating pipe")
 			exec.Command("/bin/mkfifo","/tmp/rpcapd").Run() 
 		}
-		log.Infof("Creating TCPDump %v , %v", ArkimeOptions.Interface ,ArkimeOptions.Bpf)
+
+		log.Infof("Creating TCPDump")
+		log.Infof("%v , %v", ArkimeOptions.Interface ,ArkimeOptions.Bpf)
 		exec.Command("/usr/local/bin/tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.Bpf, "-S","-U","-w","-", ">", "/tmp/rpcapd").Run() 
 		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-r", "/tmp/rpcapd")
 	}
