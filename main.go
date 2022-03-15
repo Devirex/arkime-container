@@ -169,10 +169,10 @@ func runCapture() error {
 		if os.IsNotExist(err) {
 			// handle the case where the file doesn't exist
 			log.Infof("Creating pipe")
-			exec.Command("/bin/mkfifo /tmp/rpcapd").Run() 
+			exec.Command("/bin/mkfifo","/tmp/rpcapd").Run() 
 		}
-		exec.Command("/usr/local/bin/tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.Bpf, "-S -U -w - > /tmp/rpcapd").Run() 
-		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-r /tmp/rpcapd")
+		exec.Command("/usr/local/bin/tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.Bpf, "-S","-U","-w","-", ">", "/tmp/rpcapd").Run() 
+		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-r", "/tmp/rpcapd")
 	}
 	captureCmd.Dir = fmt.Sprintf("%v", PATH_PREFIX)
 	captureCmd.Stdout = captureLog.Writer()
