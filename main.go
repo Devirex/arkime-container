@@ -170,6 +170,7 @@ func runCapture() error {
 			// handle the case where the file doesn't exist
 			log.Infof("Creating pipe")
 			exec.Command("/bin/mkfifo","/tmp/rpcapd").Run() 
+			err = nil
 		}
 
 		log.Infof("Creating TCPDump")
@@ -178,7 +179,6 @@ func runCapture() error {
 		Cmd := exec.Command("/bin/bash", "-c" , tcpdump)
 		Cmd.Stdout = captureLog.Writer()
 		Cmd.Stderr = captureLog.Writer()
-		var err error
 		go func() {
 			defer Cmd.Wait()
 			err = Cmd.Start()
