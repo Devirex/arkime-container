@@ -174,7 +174,6 @@ func runCapture() error {
 		}
 
 		log.Infof("Creating TCPDump")
-		l
 		tcpdump := ("/usr/local/bin/tcpdump -i " + ArkimeOptions.Interface + " \""+ ArkimeOptions.Bpf + "\" -S -U -w - > /tmp/rpcapd")
 		log.Infof("%v", tcpdump )
 		Cmd := exec.Command("/bin/bash", "-c" , tcpdump)
