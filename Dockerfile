@@ -12,7 +12,7 @@ FROM ubuntu:20.04
 ENV VER=3.4.0
 
 RUN apt update && \
-    apt install -y curl wget libwww-perl libjson-perl ethtool libyaml-dev jq libmagic1 iproute2 && \
+    apt install -y curl wget libwww-perl libjson-perl ethtool libyaml-dev jq libmagic1 iproute2 libdbus-1-3 && \
     rm -rf /var/lib/apt/lists/* && \
     curl https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-20.04/arkime_$VER-1_amd64.deb -o /opt/arkime_$VER-1_amd64.deb && \
     dpkg -i /opt/arkime_$VER-1_amd64.deb && \
