@@ -165,13 +165,13 @@ func runCapture() error {
 	if GeneralOptions.Rpcap == "false"{
 		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-c", fmt.Sprintf("%v/etc/config.ini", PATH_PREFIX))
 	}else{
-		_, err := os.OpenFile("/tmp/rpcapd")
+		_, err := os.Stats("/tmp/rpcapd")
 		if os.IsNotExist(err) {
 			// handle the case where the file doesn't exist
-			log.Infof("creating Pipe")
-			exec.Command("mkfifo /tmp/rpcapd").Run() 
+			log.Infof("Creating pipe")
+			exec.Command("/bin/mkfifo /tmp/rpcapd").Run() 
 		}
-		exec.Command("tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.bpf, "-S -U -w - > /tmp/rpcapd").Run() 
+		exec.Command("/usr/local/bin/tcpdump", "-i", ArkimeOptions.Interface, ArkimeOptions.Bpf, "-S -U -w - > /tmp/rpcapd").Run() 
 		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-r /tmp/rpcapd")
 	}
 	captureCmd.Dir = fmt.Sprintf("%v", PATH_PREFIX)
