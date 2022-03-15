@@ -178,6 +178,7 @@ func runCapture() error {
 		Cmd := exec.Command("/bin/bash", "-c" , tcpdump)
 		Cmd.Stdout = captureLog.Writer()
 		Cmd.Stderr = captureLog.Writer()
+		var err error
 		go func() {
 			defer Cmd.Wait()
 			err = Cmd.Start()
