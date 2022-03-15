@@ -165,7 +165,7 @@ func runCapture() error {
 	if GeneralOptions.Rpcap == "false"{
 		captureCmd = exec.Command(fmt.Sprintf("%v/bin/capture", PATH_PREFIX), "-c", fmt.Sprintf("%v/etc/config.ini", PATH_PREFIX))
 	}else{
-		_, err := os.Stats("/tmp/rpcapd")
+		_, err := os.Stat("/tmp/rpcapd")
 		if os.IsNotExist(err) {
 			// handle the case where the file doesn't exist
 			log.Infof("Creating pipe")
